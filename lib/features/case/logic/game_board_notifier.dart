@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 class GameBoardNotifier extends ChangeNotifier {
   late List<List<bool>> _mainThing;
   late int _length;
+  bool isOpen = false;
 
   GameBoardNotifier() {
     setLength(3);
+    mixUp();
   }
 
   List<List<bool>> get mainThing => _mainThing;
@@ -67,6 +69,7 @@ class GameBoardNotifier extends ChangeNotifier {
   void openChest(AnimationController animationController) {
     final isWon = checkWin();
     if (isWon) {
+      isOpen = true;
       animationController
         ..duration = const Duration(seconds: 5)
         ..animationBehavior

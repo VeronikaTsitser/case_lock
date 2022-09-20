@@ -1,7 +1,4 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-
 import 'package:lottie/lottie.dart';
 
 class CaseLottieAnimation extends StatefulWidget {
@@ -30,15 +27,12 @@ class _CaseLottieAnimationState extends State<CaseLottieAnimation>
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(50),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
-        child: Lottie.asset(
-          'assets/lottie_animation/case_lottie.json',
-          width: 200,
-          height: 200,
-          fit: BoxFit.fill,
-          controller: _controller,
-        ),
+      child: Lottie.asset(
+        'assets/lottie_animation/case_lottie.json',
+        width: 200,
+        height: 200,
+        fit: BoxFit.cover,
+        controller: _controller,
       ),
     );
   }

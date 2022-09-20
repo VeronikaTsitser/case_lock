@@ -1,3 +1,4 @@
+import 'package:case_lock/features/case/logic/animation_controller_notifier.dart';
 import 'package:case_lock/features/case/logic/game_board_notifier.dart';
 import 'package:case_lock/features/case/presentation/widgets/game_board_item.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,14 @@ class GameBoard extends StatelessWidget {
                       value.length,
                       (axisX) => GameBoardItem(
                         onPressed: () {
+                          if (Provider.of<GameBoardNotifier>(context,
+                                  listen: false)
+                              .isOpen) {
+                            Provider.of<AnimationControllerNotifier>(context,
+                                    listen: false)
+                                .controller
+                                .reset();
+                          }
                           value.onKeyTap(axisY, axisX);
                         },
                         itemHeight: itemHeight,

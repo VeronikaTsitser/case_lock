@@ -1,5 +1,5 @@
+import 'package:case_lock/features/case/logic/animation_controller_notifier.dart';
 import 'package:case_lock/features/case/logic/game_board_notifier.dart';
-
 import 'package:case_lock/features/case/presentation/widgets/case_lottie_animation.dart';
 import 'package:case_lock/features/case/presentation/widgets/game_board.dart';
 import 'package:case_lock/features/case/presentation/widgets/game_rules.dart';
@@ -8,15 +8,8 @@ import 'package:case_lock/features/case/presentation/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CaseScreen extends StatefulWidget {
+class CaseScreen extends StatelessWidget {
   const CaseScreen({Key? key}) : super(key: key);
-
-  @override
-  State<CaseScreen> createState() => _CaseScreenState();
-}
-
-class _CaseScreenState extends State<CaseScreen> {
-  late final AnimationController animationController;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +29,9 @@ class _CaseScreenState extends State<CaseScreen> {
                   Center(
                     child: CaseLottieAnimation(
                       onCreated: (controller) {
-                        animationController = controller;
+                        Provider.of<AnimationControllerNotifier>(context,
+                                listen: false)
+                            .setController(controller);
                       },
                     ),
                   ),
@@ -46,6 +41,10 @@ class _CaseScreenState extends State<CaseScreen> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
+                          final animationController =
+                              Provider.of<AnimationControllerNotifier>(context,
+                                      listen: false)
+                                  .controller;
                           Provider.of<GameBoardNotifier>(context, listen: false)
                               .openChest(animationController);
                         },
@@ -58,6 +57,10 @@ class _CaseScreenState extends State<CaseScreen> {
                       ),
                       ElevatedButton(
                         onPressed: () {
+                          final animationController =
+                              Provider.of<AnimationControllerNotifier>(context,
+                                      listen: false)
+                                  .controller;
                           animationController.reset();
                           Provider.of<GameBoardNotifier>(context, listen: false)
                               .mixUp();
@@ -72,6 +75,7 @@ class _CaseScreenState extends State<CaseScreen> {
               ),
             ),
             SliverFillRemaining(
+              hasScrollBody: false,
               child: Column(
                 children: [
                   const Spacer(),

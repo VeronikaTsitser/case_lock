@@ -1,4 +1,5 @@
 import 'package:case_lock/core/presentation/app_theme.dart';
+import 'package:case_lock/features/case/logic/animation_controller_notifier.dart';
 import 'package:case_lock/features/case/logic/game_board_notifier.dart';
 import 'package:case_lock/features/case/presentation/case_screen.dart';
 
@@ -14,10 +15,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (BuildContext context) {
-        return GameBoardNotifier();
-      },
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (BuildContext context) {
+            return GameBoardNotifier();
+          },
+        ),
+        Provider(
+          create: (BuildContext context) {
+            return AnimationControllerNotifier();
+          },
+        ),
+      ],
       child: MaterialApp(
         theme: AppTheme.lightTheme,
         home: const CaseScreen(),
