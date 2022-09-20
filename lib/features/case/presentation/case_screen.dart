@@ -28,6 +28,7 @@ class _CaseScreenState extends State<CaseScreen> {
           slivers: [
             SliverToBoxAdapter(
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [

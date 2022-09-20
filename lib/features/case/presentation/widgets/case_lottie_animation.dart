@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import 'package:lottie/lottie.dart';
@@ -22,28 +24,22 @@ class _CaseLottieAnimationState extends State<CaseLottieAnimation>
     _controller = AnimationController(vsync: this);
 
     widget.onCreated(_controller);
-    // _controller.repeat(period: const Duration(seconds: 5));
-    // _controller.
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Lottie.asset(
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(50),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
+        child: Lottie.asset(
           'assets/lottie_animation/case_lottie.json',
           width: 200,
           height: 200,
           fit: BoxFit.fill,
           controller: _controller,
-          // onLoaded: (composition) {
-          //   _controller
-          //     ..duration = const Duration(seconds: 5)
-          //     ..animationBehavior
-          //     ..forward();
-          // },
         ),
-      ],
+      ),
     );
   }
 }
