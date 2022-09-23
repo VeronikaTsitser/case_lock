@@ -13,6 +13,10 @@ class CaseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final animationNotifier =
+        Provider.of<AnimationControllerNotifier>(context, listen: false);
+    final gameBoardNotifier =
+        Provider.of<GameBoardNotifier>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromRGBO(8, 55, 82, 1),
@@ -29,9 +33,7 @@ class CaseScreen extends StatelessWidget {
                   Center(
                     child: CaseLottieAnimation(
                       onCreated: (controller) {
-                        Provider.of<AnimationControllerNotifier>(context,
-                                listen: false)
-                            .setController(controller);
+                        animationNotifier.setController(controller);
                       },
                     ),
                   ),
@@ -41,33 +43,21 @@ class CaseScreen extends StatelessWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          final animationController =
-                              Provider.of<AnimationControllerNotifier>(context,
-                                      listen: false)
-                                  .controller;
-                          Provider.of<GameBoardNotifier>(context, listen: false)
-                              .openChest(animationController);
+                          if (gameBoardNotifier.isWon) {
+                            animationNotifier.openChest();
+                          }
                         },
-                        child: const Text(
-                          'Open chest',
-                        ),
+                        child: const Text('Open chest'),
                       ),
                       const SizedBox(
                         width: 10,
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          final animationController =
-                              Provider.of<AnimationControllerNotifier>(context,
-                                      listen: false)
-                                  .controller;
-                          animationController.reset();
-                          Provider.of<GameBoardNotifier>(context, listen: false)
-                              .mixUp();
+                          animationNotifier.closeChest();
+                          gameBoardNotifier.mixUp();
                         },
-                        child: const Text(
-                          'Mix up',
-                        ),
+                        child: const Text('Mix up'),
                       ),
                     ],
                   ),
@@ -83,12 +73,12 @@ class CaseScreen extends StatelessWidget {
                     children: [
                       const GameRules(),
                       LevelChange(
-                        initialValue: Provider.of<GameBoardNotifier>(context,
-                                listen: false)
-                            .length,
+                        initialValue: gameBoardNotifier.length,
                         onChanged: (int value) {
-                          Provider.of<GameBoardNotifier>(context, listen: false)
-                              .setLength(value);
+                          gameBoardNotifier
+                            ..setLength(value)
+                            ..mixUp();
+                          animationNotifier.closeChest();
                         },
                       ),
                     ],

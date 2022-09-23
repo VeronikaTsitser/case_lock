@@ -31,7 +31,7 @@ class _CaseLottieAnimationState extends State<CaseLottieAnimation>
         'assets/lottie_animation/case_lottie.json',
         width: 200,
         height: 200,
-        fit: BoxFit.cover,
+        fit: BoxFit.contain,
         controller: _controller,
       ),
     );

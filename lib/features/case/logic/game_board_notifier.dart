@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 class GameBoardNotifier extends ChangeNotifier {
   late List<List<bool>> _mainThing;
   late int _length;
-  bool isOpen = false;
 
   GameBoardNotifier() {
     setLength(3);
@@ -55,7 +54,7 @@ class GameBoardNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool checkWin() {
+  bool get isWon {
     for (var targetAxisY = 0; targetAxisY < _length; targetAxisY++) {
       for (var targetAxisX = 0; targetAxisX < _length; targetAxisX++) {
         if (_mainThing[targetAxisY][targetAxisX] != _mainThing[0][0]) {
@@ -64,23 +63,5 @@ class GameBoardNotifier extends ChangeNotifier {
       }
     }
     return true;
-  }
-
-  void openChest(AnimationController animationController) {
-    final isWon = checkWin();
-    if (isWon) {
-      isOpen = true;
-      animationController
-        ..duration = const Duration(seconds: 5)
-        ..animationBehavior
-        ..forward()
-        ..addListener(
-          () {
-            if (animationController.value > 0.7) {
-              animationController.stop();
-            }
-          },
-        );
-    }
   }
 }

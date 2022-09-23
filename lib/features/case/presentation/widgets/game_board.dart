@@ -11,11 +11,12 @@ class GameBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width * 0.7;
-    final double height = MediaQuery.of(context).size.height * 0.32;
+    final double width = MediaQuery.of(context).size.width * 0.67;
+    final animationNotifier =
+        Provider.of<AnimationControllerNotifier>(context, listen: false);
     return Consumer<GameBoardNotifier>(
-      builder: (BuildContext context, value, Widget? child) {
-        final itemHeight = height / value.length;
+      builder: (_, notifier, __) {
+        final itemHeight = width / notifier.length;
         return Stack(
           alignment: AlignmentDirectional.center,
           children: [
@@ -23,29 +24,24 @@ class GameBoard extends StatelessWidget {
             Container(
               color: const Color.fromRGBO(255, 255, 255, 0.3),
               width: width,
-              height: height,
+              height: width,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: List.generate(
-                  value.length,
+                  notifier.length,
                   (axisY) => Row(
                     mainAxisSize: MainAxisSize.min,
                     children: List.generate(
-                      value.length,
+                      notifier.length,
                       (axisX) => GameBoardItem(
                         onPressed: () {
-                          if (Provider.of<GameBoardNotifier>(context,
-                                  listen: false)
-                              .isOpen) {
-                            Provider.of<AnimationControllerNotifier>(context,
-                                    listen: false)
-                                .controller
-                                .reset();
+                          if (animationNotifier.isOpen) {
+                            animationNotifier.closeChest();
                           }
-                          value.onKeyTap(axisY, axisX);
+                          notifier.onKeyTap(axisY, axisX);
                         },
                         itemHeight: itemHeight,
-                        isHorizontal: value.mainThing[axisY][axisX],
+                        isHorizontal: notifier.mainThing[axisY][axisX],
                       ),
                     ),
                   ),
