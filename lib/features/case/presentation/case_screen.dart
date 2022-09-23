@@ -32,9 +32,7 @@ class CaseScreen extends StatelessWidget {
                   const TopBar(),
                   Center(
                     child: CaseLottieAnimation(
-                      onCreated: (controller) {
-                        animationNotifier.setController(controller);
-                      },
+                      onCreated: animationNotifier.setController,
                     ),
                   ),
                   const GameBoard(),
